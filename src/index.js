@@ -89,6 +89,15 @@ const parseDirectory = function parseDirectory(path, options, callback) {
       let replies = {};
 
       for (let i = 0; i < res.length; i++) {
+        //add extension data to top
+        if (options.extensionData) {
+          _.each(res[i].topics, function(topic) {
+            if (options.extensionData.hasOwnProperty(topic.name)) {
+              topic['extension'] = options.extensionData[topic.name];
+            }
+          })
+        }
+
         topics = _.merge(topics, res[i].topics);
         gambits = _.merge(gambits, res[i].gambits);
         replies = _.merge(replies, res[i].replies);
@@ -107,9 +116,9 @@ const parseDirectory = function parseDirectory(path, options, callback) {
       const repliesCount = Object.keys(replies).length;
 
       console.log(`Total time to process: ${(Date.now() - startTime) / 1000} seconds`);
-      // console.log("Number of topics %s parsed.", topicCount);
-      // console.log("Number of gambits %s parsed.", gambitsCount);
-      // console.log("Number of replies %s parsed.", repliesCount);
+      console.log("Number of topics %s parsed.", topicCount);
+      console.log("Number of gambits %s parsed.", gambitsCount);
+      console.log("Number of replies %s parsed.", repliesCount);
 
       if (topicCount !== 0 && gambitsCount !== 0 && repliesCount !== 0) {
         return callback(null, data);
