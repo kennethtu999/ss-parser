@@ -43,7 +43,7 @@ replyFilter
     { return filter; }
 
 topicKeyword
-  = keyword: [^ ^\t^,^)]+ { return keyword.join(""); }
+  = keyword: [^ \t,)]+ { return keyword.join(""); }
 
 topicKeywords
   = "(" ws* firstKeyword:topicKeyword ws* keywords:("," ws* keyword:topicKeyword ws* { return keyword; })* ws* ")"
